@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/gender_selector.dart';
 import 'package:flutter_application_1/components/height_selector.dart';
 import 'package:flutter_application_1/components/number_selector.dart';
+import 'package:flutter_application_1/core/app_color.dart';
+import 'package:flutter_application_1/core/text_style.dart';
+import 'package:flutter_application_1/screens/imc_result_screen.dart';
 
 class ImcHomeScreen extends StatefulWidget {
   const ImcHomeScreen({super.key});
@@ -13,12 +16,21 @@ class ImcHomeScreen extends StatefulWidget {
 class _ImcHomeScreenState extends State<ImcHomeScreen> {
   int selectedAge = 20;
   int selectedWeight = 20;
+  double selectedHeight = 170.0; // Default height in cm
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GenderSelector(),
-        HeightSelector(),
+        HeightSelector(
+          selectedHeight: selectedHeight,
+          onHeightChanged: (newheight) {
+            setState(() {
+              selectedHeight = newheight;
+            });
+          },
+        ),
         Row(
           children: [
             Expanded(
@@ -54,6 +66,33 @@ class _ImcHomeScreenState extends State<ImcHomeScreen> {
               ),
             ),
           ],
+        ),
+        Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SizedBox(
+            height: 60,
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ImcResultScreen(
+                  height: selectedHeight,
+                  peso: selectedWeight,
+                  age: selectedAge,
+                )));
+              },
+              style: ButtonStyle(
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                backgroundColor: WidgetStateProperty.all(AppColor.primary),
+              ),
+              child: Text("CALCULAR IMC", style: TextStyles.bodyText),
+            ),
+          ),
         ),
       ],
     );

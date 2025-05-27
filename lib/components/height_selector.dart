@@ -3,15 +3,17 @@ import 'package:flutter_application_1/core/app_color.dart';
 import 'package:flutter_application_1/core/text_style.dart';
 
 class HeightSelector extends StatefulWidget {
-  const HeightSelector({super.key});
+  final double selectedHeight;
+  final Function(double) onHeightChanged;
+  const HeightSelector({super.key, required this.selectedHeight, required this.onHeightChanged});
 
   @override
   State<HeightSelector> createState() => _HeightSelectorState();
 }
 
 class _HeightSelectorState extends State<HeightSelector> {
-  double height = 170.0; // Default height in cm
-  int get heightInt => height.toInt();
+  
+  int get heightInt => widget.selectedHeight.toInt();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,10 +28,9 @@ class _HeightSelectorState extends State<HeightSelector> {
             SizedBox(height: 8),
             Text("Altura".toUpperCase(),style: TextStyles.bodyText),
             Text("$heightInt cm", style:TextStyles.heightText),
-            Slider(value: height, onChanged:(value){
-              setState(() {
-                height = value;
-              });
+            Slider(value: widget.selectedHeight, 
+            onChanged:(value){
+              widget.onHeightChanged(value);
             },
             min:90,
             max: 250,

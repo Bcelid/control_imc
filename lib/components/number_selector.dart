@@ -37,6 +37,7 @@ class _NumberSelectorState extends State<NumberSelector> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FloatingActionButton(
+                    heroTag: null, // Avoids hero tag conflicts
                     onPressed: (){
                       widget.onDecrement();
                     }, 
@@ -46,6 +47,7 @@ class _NumberSelectorState extends State<NumberSelector> {
                   ),
                   SizedBox(width: 16),
                   FloatingActionButton(
+                    heroTag: null, // Avoids hero tag conflicts
                     onPressed: (){
                       widget.onIncrement();
                     }, 
